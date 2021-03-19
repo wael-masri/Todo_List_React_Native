@@ -1,21 +1,69 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 
+import React,{useState} from 'react';
+import { StyleSheet, Text, View ,Button, Alert,Keyboard,TouchableWithoutFeedback} from 'react-native';
+import Header from './Components/Header';
+import List from './Components/List';
+import Form from './Components/Form';
 export default function App() {
+  
+  
+  const [ info , setInfo] = useState([
+    {key : '1', language : "CSS"},
+    {key : '2', language : "REACT"},
+    {key : '3', language : "HTML"},
+    {key : '4', language : "JavaScript"},
+    {key : '5', language : "PHP"},
+    {key : '6', language : "Jquery"}
+]);
+
+const handleadd = (text) => {
+  if(text.length > 3){
+    setInfo([...info,{language : text ,key: Math.random().toString()}
+
+    ])
+  }else{
+    Alert.alert("Oops!!","this lang not correct");
+  }
+  
+}
+
+
+const handledelete = (key) =>{
+  setInfo(info.filter( it => it.key !== key) )
+  }
+
+
+
+const handle = () => {
+  alert("hello");
+}
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <TouchableWithoutFeedback onPress={ () => {
+      Keyboard.dismiss()
+    }}>
+    <View >
+    
+      <View  >
+           <Header /> 
+      </View>
+
+      <View style={styles.container}>
+        
+       <Form  handleadd={handleadd}/>
+      </View>
+
+      <View style={styles.container}>
+           <List list={info} handledelete={handledelete} />
+      </View>
+
     </View>
+    </TouchableWithoutFeedback>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    padding : 20
+    
   },
 });
